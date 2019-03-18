@@ -1,0 +1,90 @@
+.wrapper {
+    width: 92%;
+    margin: 0px auto;
+}
+
+.wrapper.first {
+    max-width: ((1200 * 100) / strip-unit(92%));
+    width: 100%;
+}
+
+.clear {
+    clear: both;
+}
+
+.tableHelper {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    height: 100%
+}
+
+.cellHelper {
+    display: table-cell;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+.userPanel {
+    padding: 30px 0;
+    background-color: #233656;
+    box-shadow: 0px 5px 5px 0px #415B76;
+
+    .leftSide {
+        float: left;
+        display: inline-block;
+        width: 10%;
+
+        .borderOfPhoto {
+            border-radius: 25px;
+            display: inline-block;
+            width: 100%;
+            margin:0 auto;
+            .photo {
+                margin:0 auto;
+                border-radius: 50%;
+                width: 150px;
+                height: 150px;
+                background-repeat: no-repeat;
+                background-position: 50%;
+                background-size: contain;
+                box-shadow:0px 0px 5px 5px #7B9BA6;
+
+            }
+        }
+    }
+
+    .rightSide {
+        display: inline-block;
+        float: left;
+        width: 80%;
+        padding-left: 3%;
+
+        .title {
+            font-size: 2.2em;
+            line-height: 1.8em;
+            color:white;
+        }
+
+        .dataBox {
+            color:white;
+            .yourData {
+
+            }
+            .dataLabel {
+                transition:0.2s;
+                font-size:0.9em;
+                cursor:pointer;
+                &:hover{
+                    color:#CDD6D5;
+                }
+            }
+        }
+    }
+}
