@@ -30,7 +30,9 @@
     font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
 }
-
+body{
+    background-color:#CDD6D5;
+}
 .userPanel {
     padding: 30px 0;
     background-color: #233656;
@@ -38,23 +40,24 @@
 
     .leftSide {
         float: left;
-        display: inline-block;
+        //display: inline-block;
         width: 10%;
 
         .borderOfPhoto {
             border-radius: 25px;
             display: inline-block;
             width: 100%;
-            margin:0 auto;
+            margin: 0 auto;
+
             .photo {
-                margin:0 auto;
+                margin: 0 auto;
                 border-radius: 50%;
                 width: 150px;
                 height: 150px;
                 background-repeat: no-repeat;
                 background-position: 50%;
                 background-size: contain;
-                box-shadow:0px 0px 5px 5px #7B9BA6;
+                box-shadow: 0px 0px 5px 5px #7B9BA6;
 
             }
         }
@@ -62,27 +65,28 @@
 
     .rightSide {
         display: inline-block;
-        float: left;
+        //float: left;
         width: 80%;
         padding-left: 3%;
 
         .title {
             font-size: 2.2em;
             line-height: 1.8em;
-            color:white;
+            color: white;
         }
 
         .dataBox {
-            color:white;
-            .yourData {
+            color: white;
 
-            }
+            .yourData {}
+
             .dataLabel {
-                transition:0.2s;
-                font-size:0.9em;
-                cursor:pointer;
-                &:hover{
-                    color:#CDD6D5;
+                transition: 0.2s;
+                font-size: 0.9em;
+                cursor: pointer;
+
+                &:hover {
+                    color: #CDD6D5;
                 }
             }
         }

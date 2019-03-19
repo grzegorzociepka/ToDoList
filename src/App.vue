@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <user-panel></user-panel>
+    
   </div>
 </template>
 
