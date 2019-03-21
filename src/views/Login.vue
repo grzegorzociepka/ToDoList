@@ -4,20 +4,20 @@
     <form>
       <form-group>
         <input-group>
-          <input type="text" id="email" required="required">
+          <input type="text" v-model="email" id="email" required="required">
           <label for="email" class="control-label">Email</label>
           <i class="bar"></i>
         </input-group>
       </form-group>
       <form-group>
         <input-group>
-          <input type="password" id="password" required="required">
+          <input type="password" v-model="password" id="password" required="required">
           <label for="password" class="control-label">Password</label>
           <i class="bar"></i>
         </input-group>
       </form-group>
       <div class="buttonsBox">
-        <button type="submit" class="btn">Login</button>
+        <button type="submit" @click="signIn" class="btn">Login</button>
         <a href="#/signup" class="singup">Create account</a>
         <div class="clear"></div>
       </div>
@@ -26,12 +26,31 @@
 </template>
 
 <script>
+import firebase from "firebase";
+
 export default {
   name: "login",
   data() {
-    return {};
+    return {
+      email: "",
+      password: ""
+    };
   },
-  methods: {}
+  methods: {
+    signIn: function() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(
+          function(user) {
+            alert("Well done!");
+          },
+          function(err) {
+            alert("oops: "+ err.message);
+          }
+        );
+    }
+  }
 };
 </script>
 
@@ -60,10 +79,10 @@ h3 {
     border-radius: 1.875rem;
     float: left;
     outline: none;
-    transition:0.2s;
-    cursor:pointer;
-    &:hover{
-        box-shadow: 0 10px 10px 0.4px rgba(74, 227, 135, 0.5);
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 -4px 10px 0.4px rgba(74, 227, 135, 0.5);
     }
   }
   .singup {
