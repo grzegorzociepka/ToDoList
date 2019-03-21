@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <user-panel></user-panel>
-    
+    <div id="nav">
+
+    </div>
+    <router-view/>
   </div>
 </template>
 
-<script>
-import UserPanel from './components/UserPanel.vue'
-export default {
-  name: 'app',
-  components: {
-    UserPanel
-  }
+<style lang="scss" scoped>
+html{
+  background-color:#d9d9d9;
 }
-</script>
+.clear{
+  clear:both;
+}
+</style>
+
