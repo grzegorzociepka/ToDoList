@@ -1,34 +1,81 @@
 <template>
   <div class="login">
-    <h3>Sign In</h3>
-    <form>
-      <form-group>
-        <input-group>
-          <input type="text" v-model="email" id="email" required="required">
-          <label for="email" class="control-label">Email</label>
-          <i class="bar"></i>
-        </input-group>
-      </form-group>
-      <form-group>
-        <input-group>
-          <input type="password" v-model="password" id="password" required="required">
-          <label for="password" class="control-label">Password</label>
-          <i class="bar"></i>
-        </input-group>
-      </form-group>
-      <div class="buttonsBox">
-        <button type="submit" @click="signIn" class="btn">Login</button>
-        <a href="#/signup" class="singup">Create account</a>
-        <div class="clear"></div>
-      </div>
-    </form>
+    <tabs>
+      <tab title="Login" active="true">
+        <form id="loginForm">
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                type="text"
+                v-model="email"
+                id="email"
+                required="required"
+                placeholder="E-mail"
+              >
+              <i class="bar"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                type="password"
+                v-model="password"
+                id="password"
+                required="required"
+                placeholder="Password"
+              >
+
+              <i class="bar"></i>
+            </div>
+          </div>
+          <div class="buttonsBox">
+            <button type="submit" @click="signIn" class="btn">Login</button>
+            <div class="clear"></div>
+          </div>
+        </form>
+      </tab>
+      <tab title="SignUp">
+        <form id="singupForm">
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                type="text"
+                v-model="email"
+                id="email"
+                required="required"
+                placeholder="E-mail"
+              >
+              <i class="bar"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                type="password"
+                v-model="password"
+                id="password"
+                required="required"
+                placeholder="Password"
+              >
+              <i class="bar"></i>
+            </div>
+          </div>
+          <div class="buttonsBox">
+            <button type="submit" @click="signUp" class="btn">Register</button>
+            <div class="clear"></div>
+          </div>
+        </form>
+      </tab>
+    </tabs>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
+import { Tabs, Tab } from "vue-simple-tabs";
 
 export default {
+  components: { Tabs, Tab },
   name: "login",
   data() {
     return {
@@ -46,7 +93,20 @@ export default {
             alert("Well done!");
           },
           function(err) {
-            alert("oops: "+ err.message);
+            alert("oops: " + err.message);
+          }
+        );
+    },
+    signUp: function() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then(
+          function(user) {
+            alert("succes");
+          },
+          function(err) {
+            alert("fail: " + err.message);
           }
         );
     }
@@ -54,16 +114,37 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .login {
   width: 550px;
   margin: 15% auto;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      width: 50%;
+      padding: 0.7em;
+      text-align: center;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      transition: 0.2s;
+    }
+    .active {
+      background-color: #4ae387;
+      box-shadow: 0 4px 9.6px 0.4px rgba(74, 227, 135, 0.5);
+      color: white;
+    }
+  }
 }
+
 h3 {
   text-align: center;
 }
+
 .buttonsBox {
-  padding: 0 1.5rem;
   .btn {
     background-color: #4ae387;
     color: white;
@@ -97,13 +178,13 @@ h3 {
     padding: 1.1rem 0.9rem;
   }
 }
-form-group {
+.form-group {
   position: relative;
   display: flex;
   min-height: 2.25rem;
   margin-top: 0.2rem;
-  margin: 2.25rem;
-  input-group {
+  margin: 2.25rem 0;
+  .input-group {
     position: relative;
     display: block;
     width: 100%;
@@ -121,6 +202,20 @@ form-group {
       height: 1.9rem;
       overflow: visible;
       outline: none;
+      padding-left: 0.125rem;
+      z-index: 1;
+      color: #b3b3b3;
+      font-size: 1rem;
+      font-weight: 400;
+      transition: 0.2s;
+      &:placeholder {
+        padding-left: 0.125rem;
+        z-index: 1;
+        color: #b3b3b3;
+        font-size: 1rem;
+        font-weight: 400;
+        transition: 0.2s;
+      }
     }
     label {
       position: absolute;

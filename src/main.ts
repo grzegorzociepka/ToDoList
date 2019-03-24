@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import firebase from 'firebase'
 
+
 Vue.config.productionTip = false
 
 require('dotenv').config()
