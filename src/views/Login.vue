@@ -71,47 +71,47 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import { Tabs, Tab } from "vue-simple-tabs";
+import firebase from "firebase"
+import { Tabs, Tab } from "vue-simple-tabs"
 
 export default {
   components: { Tabs, Tab },
-  name: "login",
-  data() {
+  name: 'login',
+  data () {
     return {
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: ''
+    }
   },
   methods: {
-    signIn: function() {
+    signIn() {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(
-          function(user) {
-            alert("Well done!");
+          user => {
+            this.$router.replace('home')
           },
-          function(err) {
-            alert("oops: " + err.message);
+          err => {
+            alert('Oops: ' + err.message)
           }
-        );
+        )
     },
-    signUp: function() {
+    signUp() {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(
-          function(user) {
-            alert("succes");
+          (user) => {
+            alert('succes')
           },
-          function(err) {
-            alert("fail: " + err.message);
+          (err) => {
+            alert('fail: ' + err.message)
           }
-        );
+        )
     }
   }
-};
+}
 </script>
 
 <style lang="scss">
