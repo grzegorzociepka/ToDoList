@@ -4,11 +4,13 @@ import firebase from 'firebase'
 import '../public/style/homepage.scss'
 import router from './router'
 import store from './store'
-import './config/firebase.ts'
+import firebaseConfig from './config/firebaseConfig'
 
 Vue.config.productionTip = false
 
-require('dotenv').config()
+const firebaseApp = firebase.initializeApp(firebaseConfig)
+const firestore = firebaseApp.firestore();
+firestore.settings({ timestampsInSnapshots: true })
 
 let app
 
@@ -21,3 +23,5 @@ firebase.auth().onAuthStateChanged(() => {
     }).$mount('#app')
   }
 })
+
+export default firestore

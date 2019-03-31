@@ -10,7 +10,6 @@
         <div class="rightSide">
           <div class="title">Witaj xyz</div>
           <div class="dataBox">
-            <div class="yourData">Twoje dane</div>
             <div class="firstName dataLabel">Imię: Grzegorz</div>
             <div class="secondName dataLabel">Nazwisko: Ociepka</div>
             <div class="city dataLabel">Miasto Krakow</div>
