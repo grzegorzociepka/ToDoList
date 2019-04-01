@@ -35,4 +35,14 @@ export default Vue.extend({
     height:auto;
     margin:25px auto;
   }
+  @media only screen and (max-width: 1200px) {
+  .listContainer {
+    width:75%;
+  }
+  }
+  @media only screen and (max-width: 768px) {
+  .listContainer {
+    width:95%;
+  }
+  }
 </style>
