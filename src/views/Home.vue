@@ -2,6 +2,7 @@
   <div class='home'>
      <UserPanel/>
      <div class='listContainer'>
+       <NewListTask/>
        <List/>
      </div>
   </div>
@@ -12,9 +13,10 @@ import Vue from 'vue'
 import firebase from 'firebase'
 import UserPanel from '../components/UserPanel.vue'
 import List from '../components/List.vue'
+import NewListTask from '../components/NewListTask.vue'
 
 export default Vue.extend({
-  components: { UserPanel, List },
+  components: { UserPanel, List, NewListTask },
   name: 'home',
   methods: {
     logout () {
