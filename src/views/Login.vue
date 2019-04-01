@@ -116,12 +116,12 @@ export default {
             this.$router.replace('login')
           },
           err => {
-            alert("fail: " + err.message)
+            alert('fail: ' + err.message)
           }
-        );
+        )
     }
   }
-};
+}
 </script>
 
 <style lang="scss">
