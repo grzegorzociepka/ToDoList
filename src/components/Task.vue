@@ -59,18 +59,21 @@ export default Vue.extend({});
         .st {
           display: inline-block;
           padding:5px;
-          margin-right:5px;
+          margin-right:10px;
           cursor:pointer;
         }
         .undone{
             color:white;
             background-color:red;
+            box-shadow: 0 1px 3px 0 red, 0 0 0 1px red;
         }
         .half{
             background-color:yellow;
+            box-shadow: 0 1px 3px 0 yellow, 0 0 0 1px yellow;
         }
         .done{
             background-color:#21ba45;
+            box-shadow: 0 1px 3px 0 #21ba45, 0 0 0 1px #21ba45;
         }
       }
       .actionsWrapper {
