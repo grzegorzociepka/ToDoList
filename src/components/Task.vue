@@ -4,9 +4,7 @@
       <div class="title">
         <h2>Task 1</h2>
       </div>
-      <div
-        class="desc"
-      >Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illo veritatis architecto facere cumque. Architecto consequatur facilis, sapiente harum incidunt, rem modi placeat nemo officia sunt repudiandae porro cumque eum.</div>
+      <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illo veritatis architecto facere cumque. Architecto consequatur facilis, sapiente harum incidunt, rem modi placeat nemo officia sunt repudiandae porro cumque eum.</div>
       <div class="actions">
         <div class="statusOfTask">
           <div class="undone st">Undone</div>

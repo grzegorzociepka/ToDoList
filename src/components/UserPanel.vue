@@ -15,9 +15,29 @@
             <div class="city dataLabel">Miasto Krakow</div>
             <div class="street dataLabel">Ulica Wielicka 99</div>
           </div>
+          <div class="logout" @click="logout">Logout</div>
         </div>
       </div>
     </div>
     <div class="clear"></div>
   </section>
+  
 </template>
+
+<script>
+import firebase from "firebase";
+
+export default {
+  methods: {
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("/");
+        });
+    }
+  }
+}
+</script>
+

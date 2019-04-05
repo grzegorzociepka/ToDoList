@@ -113,7 +113,7 @@ export default {
               .collection('users')
               .doc(userUid)
               .set(account);
-            this.$router.replace('login')
+            this.$router.replace('home')
           },
           err => {
             alert('fail: ' + err.message)
