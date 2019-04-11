@@ -106,7 +106,7 @@ export default {
             var userUid = user.user.uid
             var account = {
               useruid: userUid,
-              todolists: []
+              todolists: {}
             }
             firebase
               .firestore()

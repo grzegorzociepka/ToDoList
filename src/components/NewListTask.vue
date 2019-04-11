@@ -1,28 +1,30 @@
 <template>
   <div>
-    <DemoAdaptiveModal/>
-    <div class="buttonsWrapper">
-      <div class="addList add" @click="$modal.show('adaptive')">
+    <AdaptiveModal/>
+    <ModalTask/>
+    <div class='buttonsWrapper'>
+      <div class='addList add' @click='$modal.show("lists")'>
         <span>Add List</span>
       </div>
-      <div class="addTask add">
+      <div class='addTask add' @click='$modal.show("task")'>
         <span>Add Task</span>
       </div>
-      <div class="clear"></div>
+      <div class='clear'></div>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import VModal from "vue-js-modal";
-import DemoAdaptiveModal from "./Modal_Adaptive.vue";
+import Vue from 'vue';
+import VModal from 'vue-js-modal';
+import AdaptiveModal from './Modal_Adaptive.vue';
+import ModalTask from './Modal_Task.vue';
 
 Vue.use(VModal);
 
 export default {
-  name: "NewListTask",
-  components: { DemoAdaptiveModal },
+  name: 'NewListTask',
+  components: { AdaptiveModal, ModalTask },
   data() {
     return {
       canBeShown: false
