@@ -11,14 +11,12 @@
       <form id="task" @submit.prevent>
         <input type="text" v-model="title" id="title" value="Title" name="listName">
         <input type="text" v-model="desc" id="desc" value="Desc" name="listDesc">
+        <select v-model="selected">
+          <option v-for="(list) in lists" v-bind:key="list._key" :value="list._key">{{list.title}}</option>
+
+        </select>
         <button type="submit" @click="addTask()" class="btn">Add</button>
       </form>
-      <ul>
-        <li v-for="(list) in lists" v-bind:key="list._key">
-            {{list.title}}
-          </li>
-      </ul>
-      
     </div>
   </modal>
 </template>
@@ -37,39 +35,42 @@ export default {
       lists: []
     };
   },
-  
+
   methods: {
     beforeOpen(event) {
       this.uid = firebase.auth().currentUser.uid;
 
-      var ref = firebase
-        .database()
-        .ref("/users/" + this.uid)
-        .child("todolists");
-      
-      ref.on("value", snap => {
-        let data = snap.val();
-        let dataWithKeys = Object.keys(data).map(key => {
-          var obj = data[key];
-          obj._key = key;
-          this.lists.push(obj);
-          
+      if (this.lists.length == 0) {
+        var ref = firebase
+          .database()
+          .ref("/users/" + this.uid)
+          .child("todolists");
+
+        ref.once("value", snap => {
+          this.expandList = [];
+          let data = snap.val();
+          let dataWithKeys = Object.keys(data).map(key => {
+            var obj = data[key];
+            obj._key = key;
+            this.lists.push(obj);
+          });
         });
-      });
+      }
     },
     addTask() {
       this.uid = firebase.auth().currentUser.uid;
-
       var taskData = {
         title: this.title,
-        desc: this.desc
+        desc: this.desc,
+        status: this.status
       };
       var newTaskKey = firebase
         .database()
-        .ref("users/" + this.uid + "/todolists")
+        .ref("users/" + this.uid + "/todolists/" + this.selected)
         .push().key;
+
       var updates = {};
-      updates["/todolists/" + newTaskKey] = taskData;
+      updates["/todolists/" + this.selected +'/' + newTaskKey] = taskData;
       return firebase
         .database()
         .ref("users/" + this.uid)

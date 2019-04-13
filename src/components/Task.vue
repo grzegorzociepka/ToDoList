@@ -1,10 +1,10 @@
 <template>
-  <div class="card">
+  <div class="card" v-bind:class="[status == 0 ? 'new' : status == 1 ? 'halfDone' : status==2 ? 'done': 'undone']" >
     <div class="taskContent">
       <div class="title">
-        <h2>Task 1</h2>
+        <h2>{{title}}</h2>
       </div>
-      <div class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste illo veritatis architecto facere cumque. Architecto consequatur facilis, sapiente harum incidunt, rem modi placeat nemo officia sunt repudiandae porro cumque eum.</div>
+      <div class="desc">{{desc}}</div>
       <div class="actions">
         <div class="statusOfTask">
           <div class="undone st">Undone</div>
@@ -28,17 +28,32 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
-export default Vue.extend({});
+export default ({
+  props:['title','desc','status']
+});
 </script>
 
 <style lang="scss" scoped>
+.done{
+  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+  background-color:#d4d4d5;
+}
+.undone{
+  box-shadow: 0 1px 3px 0 red, 0 0 0 1px red;
+}
+.halfDone{
+  box-shadow: 0 1px 3px 0 yellow, 0 0 0 1px yellow;
+}
+.new{
+  box-shadow: 0 1px 3px 0 #21ba45, 0 0 0 1px #21ba45;
+}
 .card {
   margin: 10px auto;
   width: 95%;
   padding: 0.9em;
-  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+  
   .taskContent {
     .title {
       h2 {
