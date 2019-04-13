@@ -74,4 +74,61 @@ export default {
     padding: 0;
   }
 }
+.vue-expand-panel .catalog .item-container .index-bar-border-radius {
+    border-radius: 0 !important
+}
+.vue-expand-panel .catalog .item-container .index-bar {
+    width: 100%;
+    height: auto;
+    padding:10px 0;
+    line-height: 32px;
+    border: 2px solid #00d1b2;
+    background-color: transparent;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row;
+    flex-flow: row;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    transition: border-radius .3s ease-in-out;
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+}
+.vue-expand-panel .catalog .item-container .index-bar .left-index {
+    color: #4f4f4f;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 16px
+}
+.vue-expand-panel .catalog .item-container .index-bar .right-arrow div.arrow:after {
+    display: inline-block;
+    content: " ";
+    height: 6px;
+    width: 6px;
+    border-width: 0 2px 2px 0;
+    border-color: #00d1b2;
+    border-style: solid;
+    transform: matrix(.71, .71, -.71, .71, 0, 0);
+    transform-origin: center;
+    transition: transform .3s
+}
+
+.vue-expand-panel .catalog .item-container .content-height {
+    max-height: 2000px !important;
+    border-left: 2px solid #00d1b2 !important;
+    border-right: 2px solid #00d1b2 !important;
+    border-bottom: 2px solid #00d1b2 !important;
+    padding:10px 0!important;
+    transition:0.3s;
+}
+
+.vue-expand-panel .catalog .item-container .content {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    padding:2px 0;
+    background-color: transparent;
+    transition: all .3s ease-in-out;
+    
+    border-bottom: 2px solid #00d1b2
+}
 </style>
