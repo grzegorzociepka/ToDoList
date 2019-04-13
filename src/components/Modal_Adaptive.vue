@@ -24,7 +24,8 @@ export default {
   data() {
     return {
       title: "",
-      desc: ""
+      desc: "",
+      tasks: []
     };
   },
   methods: {
@@ -35,8 +36,9 @@ export default {
       this.uid = firebase.auth().currentUser.uid;
 
       var taskData = {
-        'title': this.title,
-        'desc': this.desc
+        title: this.title,
+        desc: this.desc,
+        tasks : this.tasks
       };
       var newTaskKey = firebase.database().ref('users/'+this.uid+'/todolists').push().key;
       var updates = {};

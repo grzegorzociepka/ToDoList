@@ -5,8 +5,9 @@
         <expand-panel :title="item.title">
           <div class="section-content">
             <li v-for="(item2) in item" :key="item2.uid">
-              {{item2}}
-              <Task v-if="isObject(item2)" v-bind:status='item2.status' v-bind:title='item2.title' v-bind:desc='item2.desc'/>
+              <div v-for="(item3, key3) in item2" :key="key3">
+                <Task v-if="isObject(item3)" v-bind:listId='item._key' v-bind:taskId='key3' v-bind:status='item3.status' v-bind:title='item3.title' v-bind:desc='item3.desc'/>
+              </div>
             </li>
           </div>
         </expand-panel>
@@ -37,7 +38,6 @@ export default {
     getLists() { 
 
       this.uid = firebase.auth().currentUser.uid;
-
       
         var ref = firebase
           .database()
@@ -51,7 +51,7 @@ export default {
             var obj = data[key];
             obj._key = key;
             this.expandList.push(obj);
-
+          
           });
         });
       

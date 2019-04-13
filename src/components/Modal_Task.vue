@@ -64,13 +64,14 @@ export default {
         desc: this.desc,
         status: this.status
       };
+
       var newTaskKey = firebase
         .database()
-        .ref("users/" + this.uid + "/todolists/" + this.selected)
+        .ref("users/" + this.uid + "/todolists/" + this.selected + '/tasks')
         .push().key;
 
       var updates = {};
-      updates["/todolists/" + this.selected +'/' + newTaskKey] = taskData;
+      updates["/todolists/" + this.selected +'/tasks/' + newTaskKey] = taskData;
       return firebase
         .database()
         .ref("users/" + this.uid)

@@ -7,9 +7,9 @@
       <div class="desc">{{desc}}</div>
       <div class="actions">
         <div class="statusOfTask">
-          <div class="undone st">Undone</div>
-          <div class="half st">Half</div>
-          <div class="done st">Done</div>
+          <div class="undone st" @click="updateStatus(taskId,3,listId)">Undone</div>
+          <div class="half st" @click="updateStatus(taskId,1,listId)">Half</div>
+          <div class="done st" @click="updateStatus(taskId,2,listId)">Done</div>
         </div>
         <div class="actionsWrapper">
           <div class="actionIcon">
@@ -30,8 +30,22 @@
 
 <script>
 import Vue from "vue";
+import firebase from "firebase";
+
 export default ({
-  props:['title','desc','status']
+  props:['title','desc','status','taskId','listId'],
+  methods:{
+    updateStatus(taskId, status,listId){
+      this.uid = firebase.auth().currentUser.uid;
+
+      var updates={}
+      updates["/todolists/" + listId +'/tasks/' + taskId+'/status'] = status
+      return firebase
+        .database()
+        .ref("users/" + this.uid)
+        .update(updates)
+    }
+  }
 });
 </script>
 
