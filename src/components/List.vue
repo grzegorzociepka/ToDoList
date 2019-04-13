@@ -20,7 +20,7 @@
 import Vue from "vue";
 import firebase from "firebase";
 import { expandPanel } from "vue-expand-panel";
-import "vue-expand-panel/dist/vue-expand-panel.css";
+
 import Task from './Task.vue'
 
 export default {
@@ -67,6 +67,12 @@ export default {
 </script>
 
 <style lang="scss">
+.vue-expand-panel .catalog {
+    margin: 0 20px
+}
+.vue-expand-panel .catalog .item-container {
+    margin-bottom: 12px
+}
 .vue-expand-panel {
   ul {
     list-style-type: none;
@@ -130,5 +136,41 @@ export default {
     transition: all .3s ease-in-out;
     
     border-bottom: 2px solid #00d1b2
+}
+.vue-expand-panel .catalog .item-container .index-bar .right-arrow div.arrow:after {
+    display: inline-block;
+    content: " ";
+    height: 6px;
+    width: 6px;
+    border-width: 0 2px 2px 0;
+    border-color: #4f4f4f;
+    border-style: solid;
+    transform: matrix(.71, .71, -.71, .71, 0, 0);
+    transform-origin: center;
+    transition: transform .3s
+}
+.vue-expand-panel .catalog .item-container .index-bar .left-index {
+    color: #4f4f4f;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 16px
+}
+
+.vue-expand-panel .catalog .item-container .index-bar .right-arrow {
+    height: 100%;
+    width: 24px;
+    margin-right: 8px
+}
+
+.vue-expand-panel .catalog .item-container .index-bar .right-arrow div.rolling-in-the-deep {
+    transform: rotate(-180deg)
+}
+
+.vue-expand-panel .catalog .item-container .index-bar .right-arrow div.arrow {
+    transition: transform .3s ease-out;
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    width: 100%
 }
 </style>

@@ -7,9 +7,11 @@
     :delay="100"
     @before-open="beforeOpen"
   >
-    <div class="example-modal-content">
+    <div class="modal-content">
       <form id="task" @submit.prevent>
+        Title:
         <input type="text" v-model="title" id="title" value="Title" name="listName">
+        Description:
         <input type="text" v-model="desc" id="desc" value="Desc" name="listDesc">
         <select v-model="selected">
           <option v-for="(list) in lists" v-bind:key="list._key" :value="list._key">{{list.title}}</option>
@@ -47,7 +49,7 @@ export default {
           .child("todolists");
 
         ref.once("value", snap => {
-          this.expandList = [];
+          this.lists = [];
           let data = snap.val();
           let dataWithKeys = Object.keys(data).map(key => {
             var obj = data[key];

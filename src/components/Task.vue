@@ -23,7 +23,10 @@
       </div>
     </div>
     <div class="status">
-      <span>Done</span>
+      <span v-if="status == 0">New</span>
+      <span v-if="status == 1">Half-Done</span>
+      <span v-if="status == 2">Done</span>
+      <span v-if="status == 3">Undone</span>
     </div>
   </div>
 </template>
@@ -36,13 +39,14 @@ export default ({
   props:['title','desc','status','taskId','listId'],
   methods:{
     updateStatus(taskId, status,listId){
-      this.uid = firebase.auth().currentUser.uid;
+     var uid = firebase.auth().currentUser.uid;
 
       var updates={}
       updates["/todolists/" + listId +'/tasks/' + taskId+'/status'] = status
+
       return firebase
         .database()
-        .ref("users/" + this.uid)
+        .ref("users/" + uid)
         .update(updates)
     }
   }
