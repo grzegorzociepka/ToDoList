@@ -9,6 +9,12 @@
       <div class='addTask add' @click='$modal.show("task")'>
         <span>Add Task</span>
       </div>
+      <div v-if="showDoneFlag == false" class='addTask add' @click='showDone()'>
+        <span>Show done</span>
+      </div>
+      <div v-else class='addTask add toggled' @click='hideDone()'>
+        <span>Hide done</span>
+      </div>
       <div class='clear'></div>
     </div>
   </div>
@@ -19,6 +25,7 @@ import Vue from 'vue';
 import VModal from 'vue-js-modal';
 import AdaptiveModal from './Modal_Adaptive.vue';
 import ModalTask from './Modal_Task.vue';
+import { EventBus } from './EventBus.js';
 
 Vue.use(VModal);
 
@@ -27,8 +34,20 @@ export default {
   components: { AdaptiveModal, ModalTask },
   data() {
     return {
-      canBeShown: false
+      canBeShown: false,
+      showDoneFlag: false
     };
+  },
+  methods:{
+    showDone(){
+      this.showDoneFlag = true
+      EventBus.$emit('showDoneFlag', this.showDoneFlag);
+      
+    },
+    hideDone(){
+      this.showDoneFlag = false
+      EventBus.$emit('showDoneFlag', this.showDoneFlag);
+    }
   }
 };
 </script>
@@ -37,9 +56,12 @@ export default {
 .buttonsWrapper {
   margin: 20px auto;
   width: 96%;
-
+  .toggled{
+    background-color:#00d1b2;
+    color:white!important;
+  }
   .add {
-    width: 49%;
+    width: 31.5%;
     float: left;
     text-align: center;
     padding: 10px;
@@ -50,8 +72,8 @@ export default {
     &:hover {
       box-shadow: 0 1px 3px 0 #00d1b2, 0 0 0 1px #00d1b2;
     }
-    &:nth-child(2n) {
-      margin-left: 2%;
+    &:nth-child(1n) {
+      margin-left: 1.1%;
     }
   }
 }

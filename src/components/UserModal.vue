@@ -9,13 +9,13 @@
   >
     <div class="modal-content">
       <form id="task" @submit.prevent>
-            Imię:
+             <span class="formText">Imię:</span>
         <input type="text" v-model="firstName" required> 
-            Nazwisko
+             <span class="formText">Nazwisko</span>
         <input type="text" v-model="secondName" required>
-            Miasto:
+             <span class="formText">Miasto:</span>
         <input type="text" v-model="city" required>
-            Ulica:
+             <span class="formText">Ulica:</span>
         <input type="text" v-model="street" required>
         <button type="submit" @click="updateUser()" class="btn">Update</button>
       </form>
@@ -63,6 +63,10 @@ export default {
   margin: 0 auto;
   text-align: center;
   padding:50px;
+  .formText{
+    padding:15px 0;
+
+  }
   input {
     margin-bottom:10px;
     display: block;

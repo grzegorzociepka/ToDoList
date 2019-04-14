@@ -6,7 +6,8 @@
           <div class="section-content">
             <li v-for="(item2) in item" :key="item2.uid">
               <div v-for="(item3, key3) in item2" :key="key3">
-                <Task v-if="isObject(item3)" v-bind:listId='item._key' v-bind:taskId='key3' v-bind:status='item3.status' v-bind:title='item3.title' v-bind:desc='item3.desc'/>
+                <Task v-if="isObject(item3) && item3.status!=2" v-bind:listId='item._key' v-bind:taskId='key3' v-bind:status='item3.status' v-bind:title='item3.title' v-bind:desc='item3.desc'/>
+                <Task v-if="isObject(item3) && item3.status==2 && showDone==true" v-bind:listId='item._key' v-bind:taskId='key3' v-bind:status='item3.status' v-bind:title='item3.title' v-bind:desc='item3.desc'/>
               </div>
             </li>
           </div>
@@ -20,23 +21,31 @@
 import Vue from "vue";
 import firebase from "firebase";
 import { expandPanel } from "vue-expand-panel";
-
+import { EventBus } from './EventBus.js';
 import Task from './Task.vue'
 
 export default {
   components: {
     expandPanel,
-    Task
+    Task,
+    EventBus
   },
   data() {
     return {
       expandList: [],
-      uid: ""
+      uid: "",
+      showDone: false
     };
   },
+  
   methods:{
-    getLists() { 
-
+    updateStatus(){
+      EventBus.$on('showDoneFlag', showDoneFlag => {
+       this.showDone = showDoneFlag 
+      });
+    },
+    getLists() {
+      
       this.uid = firebase.auth().currentUser.uid;
       
         var ref = firebase
@@ -61,6 +70,7 @@ export default {
     }
   },
   beforeMount(){
+    this.updateStatus();
     this.getLists();
   }
 };

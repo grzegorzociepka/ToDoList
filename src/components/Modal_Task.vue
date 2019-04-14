@@ -9,9 +9,9 @@
   >
     <div class="modal-content">
       <form id="task" @submit.prevent>
-        Title:
+        <span class="formText">Title:</span>
         <input type="text" v-model="title" id="title" value="Title" name="listName">
-        Description:
+         <span class="formText">Description:</span>
         <input type="text" v-model="desc" id="desc" value="Desc" name="listDesc">
         <select v-model="selected">
           <option v-for="(list) in lists" v-bind:key="list._key" :value="list._key">{{list.title}}</option>
