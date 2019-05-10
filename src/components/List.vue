@@ -60,7 +60,7 @@ export default {
             var obj = data[key];
             obj._key = key;
             this.expandList.push(obj);
-          
+            console.log(obj);
           });
         });
       

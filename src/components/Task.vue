@@ -22,7 +22,7 @@
             <i class="fas fa-edit"></i>
           </div>
           <div class="actionIcon">  
-            <i class="fas fa-plus" @click="addSubtask()"></i>
+            <i class="fas fa-plus" @click="addSubtask(taskId)"></i>
           </div>
         </div>
         <div class="clear"></div>
@@ -35,28 +35,7 @@
       <span v-if="status == 3">Undone</span>
     </div>
     <div class="subTasksWrapper">
-      <div class="subTask">
-        <div class="title">
-          <h3>subtask title</h3>
-        </div>
-        <div class="desc">2</div>
-        <div class="statusOfTask">
-          <div class="undone st" @click="updateStatus(taskId,3,listId)">Undone</div>
-          <div class="half st" @click="updateStatus(taskId,1,listId)">Half</div>
-          <div class="done st" @click="updateStatus(taskId,2,listId)">Done</div>
-        </div>
-        <div class="status">3</div>
-      </div>
-      <div class="subTask">
-        <div class="title">1</div>
-        <div class="desc">2</div>
-        <div class="statusOfTask">
-          <div class="undone st" @click="updateStatus(taskId,3,listId)">Undone</div>
-          <div class="half st" @click="updateStatus(taskId,1,listId)">Half</div>
-          <div class="done st" @click="updateStatus(taskId,2,listId)">Done</div>
-        </div>
-        <div class="status">3</div>
-      </div>
+      
     </div>
   </div>
 </template>
@@ -64,9 +43,15 @@
 <script>
 import Vue from "vue";
 import firebase from "firebase";
-
+import ModalSubTask from './Modal_SubTask.vue';
 export default {
   props: ["title", "desc", "status", "taskId", "listId"],
+  components: {Modal_SubTask},
+  data() {
+    return{
+      subtasksList: [],
+    }
+  },
   methods: {
     updateStatus(taskId, status, listId) {
       var uid = firebase.auth().currentUser.uid;
@@ -79,8 +64,26 @@ export default {
         .ref("users/" + uid)
         .update(updates);
     },
-    addSubtask(){
-      
+    addSubtask(taskId){
+      this.uid = firebase.auth().currentUser.uid;
+      var taskData = {
+        title: this.title,
+        desc: this.desc,
+        status: this.status
+      };
+
+      var newSubTaskKey = firebase
+        .database()
+        .ref("users/" + this.uid + "/todolists/" + this.selected + '/tasks' + taskId)
+        .push().key;
+
+      var updates = {};
+      updates["/todolists/" + this.selected +'/tasks/' + taskId + newSubTaskKey] = taskData;
+      return firebase
+        .database()
+        .ref("users/" + this.uid)
+        .update(updates)
+        .then(alert("success"));
     }
   }
 };
@@ -169,24 +172,7 @@ export default {
     box-shadow: 0 4px 9.6px 0.4px rgba(74, 227, 135, 0.5);
     position: relative;
     padding: 10px;
-    .subTask {
-      box-shadow: 0 4px 9.6px 0.4px red;
-      margin: 10px;
-      padding: 5px;
-      .desc {
-        padding: 5px 10px;
-      }
-      .statusOfTask {
-        padding: 0 10px;
-        .st {
-          width: 31%;
-          display: inline-block;
-          padding: 5px;
-          margin-right: 10px;
-          cursor: pointer;
-        }
-      }
-    }
+    
   }
 }
 </style>
