@@ -36,7 +36,8 @@
         <span v-if="status == 3">Undone</span>
       </div>
       <div class="subTasksWrapper" v-for="(item, index) in subtasksList" :key="index">
-        <SubTask v-bind:status="item.status" v-bind:title="item.title" v-bind:desc="item.desc" v-bind:taskId="item._key" v-bind:listId="listId" v-bind:parentId="taskId"/>
+        <SubTask v-if="item.status!=2" v-bind:status="item.status" v-bind:title="item.title" v-bind:desc="item.desc" v-bind:taskId="item._key" v-bind:listId="listId" v-bind:parentId="taskId"/>
+        <SubTask v-if="item.status==2 && showDone==true" v-bind:status="item.status" v-bind:title="item.title" v-bind:desc="item.desc" v-bind:taskId="item._key" v-bind:listId="listId" v-bind:parentId="taskId"/>
       </div>
     </div>
   </div>
@@ -47,16 +48,23 @@ import Vue from "vue";
 import firebase from "firebase";
 import ModalSubTask from "./Modal_SubTask.vue";
 import SubTask from "./SubTask.vue";
+import { EventBus } from './EventBus.js';
 
 export default {
   props: ["title", "desc", "status", "taskId", "listId"],
-  components: { ModalSubTask, SubTask },
+  components: { ModalSubTask, SubTask,EventBus },
   data() {
     return {
-      subtasksList: []
+      subtasksList: [],
+      showDone: false
     };
   },
   methods: {
+    updateStatus(){
+      EventBus.$on('showDoneFlag', showDoneFlag => {
+       this.showDone = showDoneFlag 
+      });
+    },
     show(taskId, listId) {
       this.$parent.$parent.$modal.show("subtask", {
         taskId: taskId,
@@ -125,10 +133,15 @@ export default {
           });
         }
       });
+    },
+    isObject(o){
+      return typeof o == "object"
     }
   },
+
   mounted() {
     this.getLists();
+    this.updateStatus();
   }
 };
 </script>

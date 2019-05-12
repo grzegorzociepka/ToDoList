@@ -6,7 +6,7 @@
     <div class="desc">{{desc}}</div>
     <div class="statusOfTask">
       <div class="undone st" @click="updateStatus(taskId,3,listId,parentId)">Undone</div>
-      <div class="half st" @click="updateStatus(taskId,1,listId,parentId)">Half</div>
+      <div class="halfDone st" @click="updateStatus(taskId,1,listId,parentId)">Half</div>
       <div class="done st" @click="updateStatus(taskId,2,listId,parentId)">Done</div>
     </div>
     <div class="status">
@@ -62,10 +62,10 @@ export default {
   .statusOfTask {
     padding: 10px 10px;
     .st {
-      width: 31%;
+      width: 30%;
       display: inline-block;
       padding: 5px;
-      margin-right: 10px;
+      margin-right: 3.3%;
       cursor: pointer;
     }
     .undone{
