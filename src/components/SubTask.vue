@@ -72,6 +72,16 @@ export default {
       box-shadow: 0 1px 3px 0 red, 0 0 0 1px red!important;
     }
   }
+  .status{
+    margin-top:10px;
+    
+    border-top:1px solid #21ba45;
+    text-align:center;
+    span{
+      display:inline-block;
+      padding-top:5px;
+    }
+  }
 }
 </style>
 
