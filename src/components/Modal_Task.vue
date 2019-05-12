@@ -15,7 +15,6 @@
         <input type="text" v-model="desc" id="desc" value="Desc" name="listDesc">
         <select v-model="selected">
           <option v-for="(list) in lists" v-bind:key="list._key" :value="list._key">{{list.title}}</option>
-
         </select>
         <button type="submit" @click="addTask()" class="btn">Add</button>
       </form>
@@ -34,7 +33,8 @@ export default {
       desc: "",
       status: 0,
       uid: "",
-      lists: []
+      lists: [],
+      subTasksList: []
     };
   },
 
@@ -64,7 +64,8 @@ export default {
       var taskData = {
         title: this.title,
         desc: this.desc,
-        status: this.status
+        status: this.status,
+        subTasksList: this.subTasksList
       };
 
       var newTaskKey = firebase

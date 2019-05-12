@@ -5,12 +5,13 @@
     :min-width="200"
     :min-height="200"
     :delay="100"
+    @before-open="beforeOpen"
   >
     <div class="modal-content">
       <form id="task" @submit.prevent>
         <span class="formText">Title:</span>
         <input type="text" v-model="title" id="title" value="Title" name="listName">
-         <span class="formText">Description:</span>
+        <span class="formText">Description:</span>
         <input type="text" v-model="desc" id="desc" value="Desc" name="listDesc">
         <button type="submit" @click="addTask(taskId)" class="btn">Add</button>
       </form>
@@ -23,13 +24,14 @@ import firebase from "firebase";
 
 export default {
   name: "ModalSubTask",
-  props: ["taskId"],
   data() {
     return {
       title: "",
       desc: "",
       status: 0,
       uid: "",
+      taskId: "",
+      listId: ""
     };
   },
 
@@ -41,19 +43,32 @@ export default {
         desc: this.desc,
         status: this.status
       };
-
+        
       var newSubTaskKey = firebase
         .database()
-        .ref("users/" + this.uid + "/todolists/" + this.selected + '/tasks/' + taskId)
+        .ref(
+          "users/" +
+            this.uid +
+            "/todolists/" +
+            this.listId +
+            "/tasks/" +
+            taskId +
+            "/subTasksList"
+        )
         .push().key;
-
       var updates = {};
-      updates["/todolists/" + this.selected +'/tasks/' + taskId + newSubTaskKey] = taskData;
+      updates[
+        "/todolists/" + this.listId + "/tasks/" + taskId + "/subTasksList/" + newSubTaskKey
+      ] = taskData;
       return firebase
         .database()
         .ref("users/" + this.uid)
         .update(updates)
         .then(alert("success"));
+    },
+    beforeOpen(event) {
+      this.taskId = event.params.taskId;
+      this.listId = event.params.listId;
     }
   }
 };

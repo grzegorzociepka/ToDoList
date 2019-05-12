@@ -1,41 +1,43 @@
 <template>
-  <div
-    class="card"
-    v-bind:class="[status == 0 ? 'new' : status == 1 ? 'halfDone' : status==2 ? 'done': 'undone']"
-  >
-    <div class="taskContent">
-      <div class="title">
-        <h2>{{title}}</h2>
-      </div>
-      <div class="desc">{{desc}}</div>
-      <div class="actions">
-        <div class="statusOfTask">
-          <div class="undone st" @click="updateStatus(taskId,3,listId)">Undone</div>
-          <div class="half st" @click="updateStatus(taskId,1,listId)">Half</div>
-          <div class="done st" @click="updateStatus(taskId,2,listId)">Done</div>
+  <div>
+    <div
+      class="card"
+      v-bind:class="[status == 0 ? 'new' : status == 1 ? 'halfDone' : status==2 ? 'done': 'undone']"
+    >
+      <div class="taskContent">
+        <div class="title">
+          <h2>{{title}}</h2>
         </div>
-        <div class="actionsWrapper">
-          <div class="actionIcon">
-            <i class="fas fa-trash"></i>
+        <div class="desc">{{desc}}</div>
+        <div class="actions">
+          <div class="statusOfTask">
+            <div class="undone st" @click="updateStatus(taskId,3,listId)">Undone</div>
+            <div class="half st" @click="updateStatus(taskId,1,listId)">Half</div>
+            <div class="done st" @click="updateStatus(taskId,2,listId)">Done</div>
           </div>
-          <div class="actionIcon">
-            <i class="fas fa-edit"></i>
+          <div class="actionsWrapper">
+            <div class="actionIcon">
+              <i class="fas fa-trash"></i>
+            </div>
+            <div class="actionIcon">
+              <i class="fas fa-edit"></i>
+            </div>
+            <div class="actionIcon">
+              <i class="fas fa-plus" @click="show(taskId,listId)"></i>
+            </div>
           </div>
-          <div class="actionIcon">  
-            <i class="fas fa-plus" @click="addSubtask(taskId)"></i>
-          </div>
+          <div class="clear"></div>
         </div>
-        <div class="clear"></div>
       </div>
-    </div>
-    <div class="status" v-bind:class="[status == 2 ? 'statusDone':'']">
-      <span v-if="status == 0">New</span>
-      <span v-if="status == 1">Half-Done</span>
-      <span v-if="status == 2" class="spanDone">Done</span>
-      <span v-if="status == 3">Undone</span>
-    </div>
-    <div class="subTasksWrapper">
-      
+      <div class="status" v-bind:class="[status == 2 ? 'statusDone':'']">
+        <span v-if="status == 0">New</span>
+        <span v-if="status == 1">Half-Done</span>
+        <span v-if="status == 2" class="spanDone">Done</span>
+        <span v-if="status == 3">Undone</span>
+      </div>
+      <div class="subTasksWrapper" v-for="(item, index) in subtasksList" :key="index">
+        <SubTask v-bind:status="item.status" v-bind:title="item.title" v-bind:desc="item.desc" v-bind:taskId="item._key" v-bind:listId="listId" v-bind:parentId="taskId"/>
+      </div>
     </div>
   </div>
 </template>
@@ -43,16 +45,24 @@
 <script>
 import Vue from "vue";
 import firebase from "firebase";
-import ModalSubTask from './Modal_SubTask.vue';
+import ModalSubTask from "./Modal_SubTask.vue";
+import SubTask from "./SubTask.vue";
+
 export default {
   props: ["title", "desc", "status", "taskId", "listId"],
-  components: {Modal_SubTask},
+  components: { ModalSubTask, SubTask },
   data() {
-    return{
-      subtasksList: [],
-    }
+    return {
+      subtasksList: []
+    };
   },
   methods: {
+    show(taskId, listId) {
+      this.$parent.$parent.$modal.show("subtask", {
+        taskId: taskId,
+        listId: listId
+      });
+    },
     updateStatus(taskId, status, listId) {
       var uid = firebase.auth().currentUser.uid;
 
@@ -64,7 +74,7 @@ export default {
         .ref("users/" + uid)
         .update(updates);
     },
-    addSubtask(taskId){
+    addSubtask(taskId) {
       this.uid = firebase.auth().currentUser.uid;
       var taskData = {
         title: this.title,
@@ -74,17 +84,51 @@ export default {
 
       var newSubTaskKey = firebase
         .database()
-        .ref("users/" + this.uid + "/todolists/" + this.selected + '/tasks' + taskId)
+        .ref(
+          "users/" +
+            this.uid +
+            "/todolists/" +
+            this.selected +
+            "/tasks" +
+            taskId
+        )
         .push().key;
 
       var updates = {};
-      updates["/todolists/" + this.selected +'/tasks/' + taskId + newSubTaskKey] = taskData;
+      updates[
+        "/todolists/" + this.selected + "/tasks/" + taskId + newSubTaskKey
+      ] = taskData;
       return firebase
         .database()
         .ref("users/" + this.uid)
         .update(updates)
         .then(alert("success"));
+    },
+    getLists() {
+      this.uid = firebase.auth().currentUser.uid;
+
+      var ref = firebase
+        .database()
+        .ref("/users/" + this.uid)
+        .child(
+          "todolists/" + this.listId + "/tasks/" + this.taskId + "/subTasksList"
+        );
+
+      ref.on("value", snap => {
+        this.subtasksList = [];
+        let data = snap.val();
+        if (data) {
+          let dataWithKeys = Object.keys(data).map(key => {
+            var obj = data[key];
+            obj._key = key;
+            this.subtasksList.push(obj);
+          });
+        }
+      });
     }
+  },
+  mounted() {
+    this.getLists();
   }
 };
 </script>
@@ -172,7 +216,6 @@ export default {
     box-shadow: 0 4px 9.6px 0.4px rgba(74, 227, 135, 0.5);
     position: relative;
     padding: 10px;
-    
   }
 }
 </style>
