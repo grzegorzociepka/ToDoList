@@ -3,8 +3,8 @@
     name="userModal"
     transition="nice-modal-fade"
     :min-width="200"
-    :min-height="350"
-    :height="400"
+    :min-height="450"
+    :height="450"
     :delay="100"
   >
     <div class="modal-content">
@@ -17,6 +17,7 @@
         <input type="text" v-model="city" required>
              <span class="formText">Ulica:</span>
         <input type="text" v-model="street" required>
+        
         <button type="submit" @click="updateUser()" class="btn">Update</button>
       </form>
     </div>
@@ -67,6 +68,16 @@ export default {
     padding:15px 0;
 
   }
+  .input-file{
+    border:1px solid #00d1b2;
+    text-align:center;
+    &::placeholder{
+      display:inline-block;
+      text-align:center;
+      width:100%;
+    }
+  }
+
   input {
     margin-bottom:10px;
     display: block;

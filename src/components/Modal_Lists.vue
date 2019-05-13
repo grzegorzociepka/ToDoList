@@ -12,7 +12,13 @@
         Title:
         <input type="text" v-model="title" id="title" value="Title" name="listName">
         Description:
-        <input type="text" v-model="desc" id="desc" value="Desc" name="listDesc">
+        <input
+          type="text"
+          v-model="desc"
+          id="desc"
+          value="Desc"
+          name="listDesc"
+        >
         <button type="submit" @click="addList()" class="btn">Add</button>
       </form>
     </div>
@@ -22,7 +28,7 @@
 import firebase from "firebase";
 
 export default {
-  name: "Modal_Adaptive",
+  name: "Modal_Lists",
   data() {
     return {
       title: "",
@@ -40,16 +46,21 @@ export default {
       var taskData = {
         title: this.title,
         desc: this.desc,
-        tasks : this.tasks
+        tasks: this.tasks
       };
-      var newTaskKey = firebase.database().ref('users/'+this.uid+'/todolists').push().key;
+      var newTaskKey = firebase
+        .database()
+        .ref("users/" + this.uid + "/todolists")
+        .push().key;
       var updates = {};
-      updates['/todolists/'+newTaskKey] = taskData;
-      return firebase.database().ref('users/'+this.uid).update(updates).then(alert('success'));
+      updates["/todolists/" + newTaskKey] = taskData;
+      return firebase
+        .database()
+        .ref("users/" + this.uid)
+        .update(updates);
     }
   }
 };
-
 </script>
 <style lang="scss" scoped>
 </style>

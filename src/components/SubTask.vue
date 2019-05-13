@@ -47,7 +47,7 @@ export default {
   box-shadow: 0 4px 9.6px 0.4px red!important;
 }
 .halfDone {
-  box-shadow: 0 4px 9.6px 0.4px yellow!important;
+  box-shadow: 0 4px 9.6px 0.4px orange!important;
 }
 .new {
   box-shadow: 0 4px 9.6px 0.4px #21ba45!important;

@@ -2,8 +2,8 @@
   <modal
     name="task"
     transition="nice-modal-fade"
-    :min-width="200"
-    :min-height="200"
+    :min-width="250"
+    :min-height="250"
     :delay="100"
     @before-open="beforeOpen"
   >
@@ -13,7 +13,9 @@
         <input type="text" v-model="title" id="title" value="Title" name="listName">
          <span class="formText">Description:</span>
         <input type="text" v-model="desc" id="desc" value="Desc" name="listDesc">
+        <span class="formText">Select list</span>
         <select v-model="selected">
+          <option disabled value="Select list">Select list</option>
           <option v-for="(list) in lists" v-bind:key="list._key" :value="list._key">{{list.title}}</option>
         </select>
         <button type="submit" @click="addTask()" class="btn">Add</button>
@@ -79,10 +81,11 @@ export default {
         .database()
         .ref("users/" + this.uid)
         .update(updates)
-        .then(alert("success"));
+        
     }
   }
 };
 </script>
 <style lang='scss' scoped>
+
 </style>

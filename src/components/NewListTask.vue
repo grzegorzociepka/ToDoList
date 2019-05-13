@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AdaptiveModal/>
+    <ModalLists/>
     <ModalTask/>
     <ModalSubTask/>
     <div class='buttonsWrapper'>
@@ -24,7 +24,7 @@
 <script>
 import Vue from 'vue';
 import VModal from 'vue-js-modal';
-import AdaptiveModal from './Modal_Adaptive.vue';
+import ModalLists from './Modal_Lists.vue';
 import ModalTask from './Modal_Task.vue';
 import { EventBus } from './EventBus.js';
 import ModalSubTask from './Modal_SubTask.vue';
@@ -33,7 +33,7 @@ Vue.use(VModal);
 
 export default {
   name: 'NewListTask',
-  components: { AdaptiveModal, ModalTask,ModalSubTask },
+  components: { ModalLists, ModalTask,ModalSubTask },
   data() {
     return {
       canBeShown: false,

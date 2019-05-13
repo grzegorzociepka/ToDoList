@@ -17,7 +17,7 @@
           </div>
           <div class="actionsWrapper">
             <div class="actionIcon">
-              <i class="fas fa-trash"></i>
+              <i class="fas fa-trash" @click="deleteTask(taskId,listId)"></i>
             </div>
             <div class="actionIcon">
               <i class="fas fa-edit"></i>
@@ -70,6 +70,29 @@ export default {
         taskId: taskId,
         listId: listId
       });
+    },
+    deleteTask(taskId,listId){
+      this.uid = firebase.auth().currentUser.uid;
+      var ref = firebase
+        .database()
+        .ref(
+          "users/" +
+            this.uid +
+            "/todolists/" +
+            listId +
+            "/tasks/"  +
+            taskId 
+        )
+
+       ref.on('value', snap => {
+        var a = snap.val();
+        console.log(a + " a");
+        console.log(snap + " snap");
+        var b = Object.keys(a)[0];
+        console.log(b + " b");
+        ref.child(b).remove();
+      })
+        
     },
     updateStatusTask(taskId, status, listId) {
       var uid = firebase.auth().currentUser.uid;
@@ -155,7 +178,7 @@ export default {
   box-shadow: 0 1px 3px 0 red, 0 0 0 1px red;
 }
 .halfDone {
-  box-shadow: 0 1px 3px 0 yellow, 0 0 0 1px yellow;
+  box-shadow: 0 1px 3px 0 orange, 0 0 0 1px orange;
 }
 .new {
   box-shadow: 0 1px 3px 0 #21ba45, 0 0 0 1px #21ba45;
@@ -192,8 +215,8 @@ export default {
           box-shadow: 0 1px 3px 0 red, 0 0 0 1px red;
         }
         .half {
-          background-color: yellow;
-          box-shadow: 0 1px 3px 0 yellow, 0 0 0 1px yellow;
+          background-color: orange;
+          box-shadow: 0 1px 3px 0 orange, 0 0 0 1px yellow;
         }
         .done {
           background-color: #21ba45;
