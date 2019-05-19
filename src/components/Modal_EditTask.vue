@@ -2,7 +2,6 @@
   <modal
     name="editTask"
     transition="nice-modal-fade"
-    :min-width="250"
     :min-height="250"
     :delay="100"
     @before-open="beforeOpen"
@@ -13,7 +12,6 @@
         <input type="text" v-model="title" id="title" value="Title" name="listName">
          <span class="formText">Description:</span>
         <input type="text" v-model="desc" id="desc" value="Desc" name="listDesc">
-
         <button type="submit" @click="updateTask()" class="btn">Add</button>
       </form>
     </div>
@@ -65,6 +63,15 @@ export default {
   }
 };
 </script>
-<style lang='scss' scoped>
-
+<style lang='scss'>
+.v--modal{
+    @media only screen and(max-width: 650px){
+      max-width:450px!important;
+      margin:0 auto;
+    }
+    @media only screen and(max-width: 460px){
+      max-width:350px!important;
+      margin:0 auto;
+    }
+}
 </style>
