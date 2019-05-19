@@ -125,7 +125,7 @@ export default {
     border-style: solid;
     transform: matrix(.71, .71, -.71, .71, 0, 0);
     transform-origin: center;
-    transition: transform .3s
+    transition: transform .3s;
 }
 
 .vue-expand-panel .catalog .item-container .content-height {
@@ -144,8 +144,7 @@ export default {
     padding:2px 0;
     background-color: transparent;
     transition: all .3s ease-in-out;
-    
-    border-bottom: 2px solid #00d1b2
+    border-bottom: 2px solid #00d1b2;
 }
 .vue-expand-panel .catalog .item-container .index-bar .right-arrow div.arrow:after {
     display: inline-block;

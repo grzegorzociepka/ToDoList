@@ -1,9 +1,9 @@
 <template>
   <modal
-    name="subtask"
+    name="editTask"
     transition="nice-modal-fade"
-    :min-width="200"
-    :min-height="200"
+    :min-width="250"
+    :min-height="250"
     :delay="100"
     @before-open="beforeOpen"
   >
@@ -11,9 +11,10 @@
       <form id="task" @submit.prevent>
         <span class="formText">Title:</span>
         <input type="text" v-model="title" id="title" value="Title" name="listName">
-        <span class="formText">Description:</span>
+         <span class="formText">Description:</span>
         <input type="text" v-model="desc" id="desc" value="Desc" name="listDesc">
-        <button type="submit" @click="addTask(taskId)" class="btn">Add</button>
+
+        <button type="submit" @click="updateTask()" class="btn">Add</button>
       </form>
     </div>
   </modal>
@@ -23,54 +24,48 @@
 import firebase from "firebase";
 
 export default {
-  name: "ModalSubTask",
+  name: "EditModalTask",
   data() {
     return {
       title: "",
       desc: "",
-      status: 0,
-      uid: "",
-      taskId: "",
-      listId: ""
+      listId: String,
+      taskId: String,
+      subTasksList: Array
     };
   },
 
   methods: {
-    addTask(taskId) {
+    updateTask() {
       this.uid = firebase.auth().currentUser.uid;
       var taskData = {
         title: this.title,
         desc: this.desc,
-        status: this.status
+        status: this.status,
+        subTasksList: this.subTasksList
       };
-        
-      var newSubTaskKey = firebase
+      var taskKey = firebase
         .database()
-        .ref(
-          "users/" +
-            this.uid +
-            "/todolists/" +
-            this.listId +
-            "/tasks/" +
-            taskId +
-            "/subTasksList"
-        )
-        .push().key;
+        .ref("users/" + this.uid + "/todolists/" + this.listId + '/tasks/' + this.taskId);
+
       var updates = {};
-      updates[
-        "/todolists/" + this.listId + "/tasks/" + taskId + "/subTasksList/" + newSubTaskKey
-      ] = taskData;
+      updates["/todolists/" + this.listId +'/tasks/' + this.taskId] = taskData;
+      
       return firebase
         .database()
         .ref("users/" + this.uid)
-        .update(updates);
+        .update(updates)
     },
     beforeOpen(event) {
       this.taskId = event.params.taskId;
       this.listId = event.params.listId;
+      this.status = event.params.status;
+      this.subTasksList = event.params.subTasksList;
+      console.log(this.subTasksList);
     }
   }
 };
 </script>
 <style lang='scss' scoped>
+
 </style>

@@ -3,6 +3,7 @@
     <ModalLists/>
     <ModalTask/>
     <ModalSubTask/>
+    <ModalEditTask/>
     <div class='buttonsWrapper'>
       <div class='addList add' @click='$modal.show("lists")'>
         <span>Add List</span>
@@ -28,12 +29,13 @@ import ModalLists from './Modal_Lists.vue';
 import ModalTask from './Modal_Task.vue';
 import { EventBus } from './EventBus.js';
 import ModalSubTask from './Modal_SubTask.vue';
+import ModalEditTask from './Modal_EditTask.vue';
 
 Vue.use(VModal);
 
 export default {
   name: 'NewListTask',
-  components: { ModalLists, ModalTask,ModalSubTask },
+  components: { ModalLists, ModalTask,ModalSubTask,ModalEditTask },
   data() {
     return {
       canBeShown: false,

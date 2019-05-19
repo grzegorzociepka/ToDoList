@@ -20,10 +20,10 @@
               <i class="fas fa-trash" @click="deleteTask(taskId,listId)"></i>
             </div>
             <div class="actionIcon">
-              <i class="fas fa-edit"></i>
+              <i class="fas fa-edit" @click="editTask(taskId, listId,status)"></i>
             </div>
             <div class="actionIcon">
-              <i class="fas fa-plus" @click="show(taskId,listId)"></i>
+              <i class="fas fa-plus" @click="addSubTask(taskId,listId)"></i>
             </div>
           </div>
           <div class="clear"></div>
@@ -36,8 +36,24 @@
         <span v-if="status == 3">Undone</span>
       </div>
       <div class="subTasksWrapper" v-for="(item, index) in subtasksList" :key="index">
-        <SubTask v-if="item.status!=2" v-bind:status="item.status" v-bind:title="item.title" v-bind:desc="item.desc" v-bind:taskId="item._key" v-bind:listId="listId" v-bind:parentId="taskId"/>
-        <SubTask v-if="item.status==2 && showDone==true" v-bind:status="item.status" v-bind:title="item.title" v-bind:desc="item.desc" v-bind:taskId="item._key" v-bind:listId="listId" v-bind:parentId="taskId"/>
+        <SubTask
+          v-if="item.status!=2"
+          v-bind:status="item.status"
+          v-bind:title="item.title"
+          v-bind:desc="item.desc"
+          v-bind:taskId="item._key"
+          v-bind:listId="listId"
+          v-bind:parentId="taskId"
+        />
+        <SubTask
+          v-if="item.status==2 && showDone==true"
+          v-bind:status="item.status"
+          v-bind:title="item.title"
+          v-bind:desc="item.desc"
+          v-bind:taskId="item._key"
+          v-bind:listId="listId"
+          v-bind:parentId="taskId"
+        />
       </div>
     </div>
   </div>
@@ -46,13 +62,12 @@
 <script>
 import Vue from "vue";
 import firebase from "firebase";
-import ModalSubTask from "./Modal_SubTask.vue";
 import SubTask from "./SubTask.vue";
-import { EventBus } from './EventBus.js';
+import { EventBus } from "./EventBus.js";
 
 export default {
   props: ["title", "desc", "status", "taskId", "listId"],
-  components: { ModalSubTask, SubTask,EventBus },
+  components: { SubTask, EventBus },
   data() {
     return {
       subtasksList: [],
@@ -60,39 +75,36 @@ export default {
     };
   },
   methods: {
-    updateStatus(){
-      EventBus.$on('showDoneFlag', showDoneFlag => {
-       this.showDone = showDoneFlag 
+    updateStatus() {
+      EventBus.$on("showDoneFlag", showDoneFlag => {
+        this.showDone = showDoneFlag;
       });
     },
-    show(taskId, listId) {
+    addSubTask(taskId, listId) {
       this.$parent.$parent.$modal.show("subtask", {
         taskId: taskId,
         listId: listId
       });
     },
-    deleteTask(taskId,listId){
+    editTask(taskId, listId, status) {
+      this.$parent.$parent.$modal.show("editTask", {
+        taskId: taskId,
+        listId: listId,
+        status: status,
+        subTasksList: this.subtasksList
+      });
+    },
+    deleteTask(taskId, listId) {
       this.uid = firebase.auth().currentUser.uid;
       var ref = firebase
         .database()
-        .ref(
-          "users/" +
-            this.uid +
-            "/todolists/" +
-            listId +
-            "/tasks/"  +
-            taskId 
-        )
+        .ref("users/" + this.uid + "/todolists/" + listId + "/tasks/" + taskId);
 
-       ref.on('value', snap => {
+      ref.on("value", snap => {
         var a = snap.val();
-        console.log(a + " a");
-        console.log(snap + " snap");
         var b = Object.keys(a)[0];
-        console.log(b + " b");
         ref.child(b).remove();
-      })
-        
+      });
     },
     updateStatusTask(taskId, status, listId) {
       var uid = firebase.auth().currentUser.uid;
@@ -132,8 +144,7 @@ export default {
       return firebase
         .database()
         .ref("users/" + this.uid)
-        .update(updates)
-        .then(alert("success"));
+        .update(updates);
     },
     getLists() {
       this.uid = firebase.auth().currentUser.uid;
@@ -157,8 +168,8 @@ export default {
         }
       });
     },
-    isObject(o){
-      return typeof o == "object"
+    isObject(o) {
+      return typeof o == "object";
     }
   },
 
