@@ -2,7 +2,7 @@
   <div class="vue-expand-panel">
     <ul>
       <li v-for="(item, index) in expandList" :key="index">
-        <expand-panel :title="item.title">
+        <expand-panel :title="item.title" :desc="item.desc" :listId="item._key">
           <div class="section-content">
             <li v-for="(item2) in item" :key="item2.uid">
               <div v-for="(item3, key3) in item2" :key="key3">
@@ -20,7 +20,7 @@
 <script>
 import Vue from "vue";
 import firebase from "firebase";
-import { expandPanel } from "vue-expand-panel";
+import  expandPanel  from "./expand.vue";
 import { EventBus } from './EventBus.js';
 import Task from './Task.vue'
 

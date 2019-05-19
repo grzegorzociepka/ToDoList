@@ -61,7 +61,6 @@ export default {
       this.listId = event.params.listId;
       this.status = event.params.status;
       this.subTasksList = event.params.subTasksList;
-      console.log(this.subTasksList);
     }
   }
 };

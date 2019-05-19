@@ -91,7 +91,8 @@ export default {
         taskId: taskId,
         listId: listId,
         status: status,
-        subTasksList: this.subtasksList
+        subTasksList: this.subtasksList,
+        
       });
     },
     deleteTask(taskId, listId) {
